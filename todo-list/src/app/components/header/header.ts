@@ -7,8 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './header.css',
 })
 export class Header {
-  /** À compléter avec les noms et prénoms des membres du groupe */
+  /** Membres du groupe affichés dans l'en-tête */
   protected readonly students = [
     { firstName: 'Achille', lastName: 'SAGANG TANWOUO' },
+    { firstName: 'Jules', lastName: 'FILLOUX' },
   ];
 }

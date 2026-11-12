@@ -5,7 +5,7 @@ Application de gestion de tâches composée de :
 - un **frontend Angular 21** (`todo-list/`) ;
 - un **backend Node.js / Express / TypeScript** (`backend/`) qui expose une API REST.
 
-**Étudiant :** Achille SAGANG TANWOUO
+**Groupe :** Achille SAGANG TANWOUO, Jules FILLOUX
 
 ---
 

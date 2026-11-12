@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "setup": "npm install && npm --prefix ../backend install",
+    "api": "npm --prefix ../backend run dev"
   },
   "private": true,
   "packageManager": "npm@11.12.1",
