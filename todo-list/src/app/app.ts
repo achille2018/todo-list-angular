@@ -8,14 +8,7 @@ import { TodoFilterBar } from './components/todo-filter/todo-filter';
 import { TodoForm } from './components/todo-form/todo-form';
 import { TodoList } from './components/todo-list/todo-list';
 import { TodoStats } from './components/todo-stats/todo-stats';
-import {
-  countTodos,
-  sortTodos,
-  Todo,
-  TodoFilter,
-  TodoPriority,
-  TodoSort,
-} from './models/todo';
+import { countTodos, sortTodos, Todo, TodoFilter, TodoPriority } from './models/todo';
 import { TodoService } from './services/todo';
 
 @Component({
@@ -35,12 +28,21 @@ export class App implements OnInit {
   private readonly allTodos = signal<Todo[]>([]);
 
   protected readonly filter = signal<TodoFilter>('all');
-  protected readonly sort = signal<TodoSort>('priority');
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
 
-  protected readonly visibleTodos = computed(() => sortTodos(this.todos(), this.sort()));
+  /** Dans chaque colonne : tâches en cours d'abord, puis les plus récentes */
+  protected readonly visibleTodos = computed(() => sortTodos(this.todos(), 'priority'));
   protected readonly counts = computed(() => countTodos(this.allTodos()));
+
+  protected readonly heading = computed(() => {
+    const titles: Record<TodoFilter, string> = {
+      all: 'Toutes les tâches',
+      active: 'Tâches en cours',
+      done: 'Tâches terminées',
+    };
+    return titles[this.filter()];
+  });
 
   ngOnInit(): void {
     // Le filtre est lu depuis le paramètre d'URL ?filter=all|active|done

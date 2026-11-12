@@ -1,40 +1,48 @@
 footer {
-  margin-top: 24px;
-  text-align: center;
-  animation: fade 0.8s ease 0.4s both;
+  margin-top: auto;
+}
+
+.section {
+  margin: 0 0 8px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
 }
 
 .hints {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px 16px;
+  display: grid;
+  gap: 6px;
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 10px;
   list-style: none;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
 }
 
 kbd {
-  margin-right: 4px;
-  padding: 2px 7px;
+  margin-right: 6px;
+  padding: 1px 6px;
   font-family: inherit;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: var(--text);
-  background: var(--surface-strong);
+  background: var(--surface);
   border: 1px solid var(--border-strong);
   border-bottom-width: 2px;
   border-radius: 6px;
 }
 
 .made {
-  margin: 14px 0 0;
-  font-size: 0.75rem;
+  margin: 14px 0 0 10px;
+  font-size: 0.72rem;
   color: var(--text-faint);
 }
 
-@keyframes fade {
-  from { opacity: 0; }
+/* Sur mobile, les raccourcis clavier sont inutiles */
+@media (max-width: 960px) {
+  footer {
+    display: none;
+  }
 }

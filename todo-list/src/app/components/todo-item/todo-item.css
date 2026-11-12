@@ -1,12 +1,9 @@
-.todo {
+.card {
   --c: var(--medium);
   --c-soft: var(--medium-soft);
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 12px 14px 18px;
-  background: var(--surface-strong);
+  padding: 14px 14px 10px;
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
@@ -14,44 +11,52 @@
   transition: transform 0.25s var(--ease-out), box-shadow 0.25s, border-color 0.25s, opacity 0.3s;
 }
 
-.todo[data-priority='high'] { --c: var(--high); --c-soft: var(--high-soft); }
-.todo[data-priority='low'] { --c: var(--low); --c-soft: var(--low-soft); }
+.card[data-priority='high'] { --c: var(--high); --c-soft: var(--high-soft); }
+.card[data-priority='low'] { --c: var(--low); --c-soft: var(--low-soft); }
 
-/* Barre de couleur de la priorité, à gauche */
-.todo::before {
+/* Fine bande de couleur en haut de la carte */
+.card::before {
   content: '';
   position: absolute;
-  inset: 0 auto 0 0;
-  width: 4px;
+  inset: 0 0 auto;
+  height: 3px;
   background: var(--c);
-  transition: background 0.3s, width 0.25s;
+  opacity: 0.85;
+  transition: height 0.25s var(--ease-out);
 }
 
-.todo:hover {
-  transform: translateY(-2px);
+.card:hover {
+  transform: translateY(-3px);
   border-color: var(--border-strong);
   box-shadow: var(--shadow);
 }
 
-.todo:hover::before {
-  width: 6px;
+.card:hover::before {
+  height: 4px;
 }
 
-.todo.done {
-  opacity: 0.65;
+.card.done {
+  background: var(--surface-muted);
 }
 
-.todo.done::before {
+.card.done::before {
   background: var(--text-faint);
 }
 
-/* ----- Case à cocher animée ----- */
+/* ----- Ligne du haut : case + titre ----- */
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
 .check {
   display: grid;
   place-items: center;
   flex: none;
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
   padding: 0;
   background: transparent;
   border: 2px solid var(--border-strong);
@@ -62,15 +67,15 @@
 
 .check:hover {
   border-color: var(--c);
-  transform: scale(1.1);
+  transform: scale(1.12);
 }
 
 .check svg {
-  width: 15px;
-  height: 15px;
+  width: 13px;
+  height: 13px;
   fill: none;
   stroke: #fff;
-  stroke-width: 3.2;
+  stroke-width: 3.4;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 24;
@@ -88,42 +93,49 @@
   stroke-dashoffset: 0;
 }
 
-/* ----- Contenu ----- */
-.content {
+.title {
   flex: 1;
   min-width: 0;
-}
-
-.title {
-  display: inline;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 0.93rem;
+  line-height: 1.4;
   word-break: break-word;
   cursor: text;
   user-select: none;
-  /* Le trait qui barre le texte se dessine progressivement */
+  transition: color 0.3s;
+}
+
+/* Le trait qui barre le texte se dessine progressivement (ligne par ligne) */
+.text {
   background: linear-gradient(currentColor, currentColor) no-repeat 0 55% / 0 1.5px;
-  transition: background-size 0.35s var(--ease-out), color 0.3s;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size 0.35s var(--ease-out);
 }
 
 .done .title {
   color: var(--text-muted);
+}
+
+.done .text {
   background-size: 100% 1.5px;
 }
 
-.meta {
+/* ----- Ligne du bas : badge, date, corbeille ----- */
+.card-bottom {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
-  margin-top: 6px;
+  gap: 8px;
+  margin-top: 12px;
+  padding-left: 32px;
 }
 
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 2px 9px;
-  font-size: 0.72rem;
+  padding: 2px 8px;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--c);
@@ -131,7 +143,7 @@
   border: none;
   border-radius: 999px;
   cursor: pointer;
-  transition: transform 0.2s var(--ease-spring), background 0.3s, color 0.3s;
+  transition: transform 0.2s var(--ease-spring);
 }
 
 .badge:hover {
@@ -149,7 +161,7 @@
   background: currentColor;
 }
 
-.todo[data-priority='high']:not(.done) .dot {
+.card[data-priority='high']:not(.done) .dot {
   animation: blink 1.6s ease-in-out infinite;
 }
 
@@ -157,41 +169,42 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.75rem;
+  min-width: 0;
+  font-size: 0.72rem;
   color: var(--text-faint);
+  white-space: nowrap;
 }
 
 .date svg {
-  width: 13px;
-  height: 13px;
+  flex: none;
+  width: 12px;
+  height: 12px;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
   stroke-linecap: round;
 }
 
-/* ----- Bouton supprimer ----- */
 .delete {
   display: grid;
   place-items: center;
   flex: none;
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
   padding: 0;
   color: var(--text-faint);
   background: none;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
   opacity: 0;
-  transform: translateX(6px);
-  transition: opacity 0.2s, transform 0.25s var(--ease-out), color 0.2s, background 0.2s;
+  transition: opacity 0.2s, color 0.2s, background 0.2s;
 }
 
-.todo:hover .delete,
+.card:hover .delete,
 .delete:focus-visible {
   opacity: 1;
-  transform: none;
 }
 
 .delete:hover {
@@ -204,8 +217,8 @@
 }
 
 .delete svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
@@ -213,17 +226,16 @@
   stroke-linejoin: round;
 }
 
-/* Écrans tactiles : pas de survol, le bouton reste visible */
+/* Écrans tactiles : pas de survol, la corbeille reste visible */
 @media (hover: none) {
   .delete {
     opacity: 1;
-    transform: none;
   }
 }
 
 @keyframes check-pop {
   0% { transform: scale(0.8); }
-  60% { transform: scale(1.18); }
+  60% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
 

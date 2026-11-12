@@ -30,14 +30,14 @@
 
   <div class="summary">
     <p class="message">{{ message() }}</p>
-    <p class="detail">{{ counts().done }} sur {{ counts().all }} tâche(s) terminée(s)</p>
-
-    <ul class="chips">
-      <li class="chip active"><strong>{{ counts().active }}</strong> en cours</li>
-      <li class="chip done"><strong>{{ counts().done }}</strong> terminée(s)</li>
-      <li class="chip urgent" [class.pulse]="counts().urgent > 0">
-        <strong>{{ counts().urgent }}</strong> urgente(s)
-      </li>
-    </ul>
+    <p class="detail">{{ counts().done }} sur {{ counts().all }} terminée(s)</p>
   </div>
+
+  <ul class="chips">
+    <li class="chip active"><strong>{{ counts().active }}</strong> en cours</li>
+    <li class="chip done"><strong>{{ counts().done }}</strong> finie(s)</li>
+    <li class="chip urgent" [class.pulse]="counts().urgent > 0">
+      <strong>{{ counts().urgent }}</strong> urgente(s)
+    </li>
+  </ul>
 </section>

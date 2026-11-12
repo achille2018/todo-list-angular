@@ -1,5 +1,5 @@
-<div class="composer" [class.shake]="shake()">
-  <div class="field" [attr.data-priority]="priority()">
+<div class="composer" [class.shake]="shake()" [attr.data-priority]="priority()">
+  <div class="field">
     <svg class="plus" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
     <input
       #taskInput
@@ -9,14 +9,9 @@
       aria-label="Nouvelle tâche"
       (keydown.enter)="submit(taskInput)"
     />
-    <button type="button" class="add" (click)="submit(taskInput)">
-      Ajouter
-      <kbd>↵</kbd>
-    </button>
   </div>
 
   <div class="priority-picker" role="radiogroup" aria-label="Priorité de la nouvelle tâche">
-    <span class="label">Priorité</span>
     @for (p of priorities; track p) {
       <button
         type="button"
@@ -30,4 +25,9 @@
       </button>
     }
   </div>
+
+  <button type="button" class="add" (click)="submit(taskInput)">
+    Ajouter
+    <kbd>↵</kbd>
+  </button>
 </div>

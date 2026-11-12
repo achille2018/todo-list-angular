@@ -1,128 +1,118 @@
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin: 18px 0 14px;
-}
-
-/* ----- Filtres : contrôle segmenté avec pastille glissante ----- */
-.segmented {
-  position: relative;
+nav {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  flex: 1 1 320px;
-  padding: 4px;
-  background: var(--surface-muted);
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  gap: 4px;
 }
 
-.indicator {
-  position: absolute;
-  top: 4px;
-  bottom: 4px;
-  left: 4px;
-  width: calc((100% - 8px) / 3);
-  background: var(--gradient);
-  border-radius: 10px;
-  box-shadow: 0 6px 16px -6px var(--primary);
-  transition: transform 0.45s var(--ease-spring);
+.section {
+  margin: 0 0 6px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
 }
 
-.segmented a {
+a {
   position: relative;
-  z-index: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 8px 6px;
-  font-size: 0.88rem;
+  gap: 10px;
+  padding: 9px 10px;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-muted);
   text-decoration: none;
-  white-space: nowrap;
   border-radius: 10px;
-  transition: color 0.25s;
+  transition: background 0.2s, color 0.2s, transform 0.2s var(--ease-out);
 }
 
-.segmented a:hover {
+a:hover {
   color: var(--text);
+  background: var(--surface-muted);
+  transform: translateX(2px);
 }
 
-.segmented a.active {
-  color: #fff;
+/* Barre verticale qui s'allonge sur le filtre actif */
+a::before {
+  content: '';
+  position: absolute;
+  left: -18px;
+  top: 50%;
+  width: 4px;
+  height: 0;
+  border-radius: 0 4px 4px 0;
+  background: var(--gradient);
+  transform: translateY(-50%);
+  transition: height 0.35s var(--ease-spring);
+}
+
+a.active {
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+
+a.active::before {
+  height: 60%;
+}
+
+svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.label {
+  flex: 1;
 }
 
 .count {
-  min-width: 20px;
-  padding: 0 6px;
-  font-size: 0.72rem;
+  min-width: 24px;
+  padding: 0 7px;
+  font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
-  line-height: 18px;
+  line-height: 20px;
   text-align: center;
-  background: var(--border);
-  border-radius: 999px;
-  transition: background 0.25s;
-}
-
-.segmented a.active .count {
-  background: rgba(255, 255, 255, 0.25);
-}
-
-/* ----- Tri ----- */
-.sort {
-  display: flex;
-  gap: 4px;
-  padding: 4px;
-  background: var(--surface-muted);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-}
-
-.sort button {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 7px 10px;
-  font-size: 0.8rem;
-  font-weight: 600;
   color: var(--text-muted);
-  background: none;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  background: var(--surface-muted);
+  border-radius: 999px;
 }
 
-.sort button:hover {
-  color: var(--text);
+a.active .count {
+  color: #fff;
+  background: var(--primary);
 }
 
-.sort button.active {
-  color: var(--primary);
-  background: var(--surface-strong);
-  box-shadow: var(--shadow-sm);
-}
-
-.sort svg {
-  width: 15px;
-  height: 15px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.2;
-  stroke-linecap: round;
-}
-
-@media (max-width: 520px) {
-  .sort {
-    flex: 1;
+/* Tablette / mobile : les vues passent en ligne */
+@media (max-width: 960px) {
+  nav {
+    grid-template-columns: repeat(3, 1fr);
   }
 
-  .sort button {
-    flex: 1;
+  .section {
+    display: none;
+  }
+
+  a {
     justify-content: center;
+    padding: 9px 6px;
+  }
+
+  a::before {
+    display: none;
+  }
+
+  .label {
+    flex: none;
+  }
+}
+
+@media (max-width: 480px) {
+  a svg {
+    display: none;
   }
 }

@@ -1,31 +1,78 @@
 :host {
   display: block;
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 40px 16px 32px;
 }
 
-.board {
+.layout {
   display: grid;
-  gap: 16px;
+  grid-template-columns: 280px minmax(0, 1fr);
+  min-height: 100vh;
 }
 
-.panel {
-  padding: 20px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
-  animation: rise 0.6s var(--ease-out) 0.1s both;
+/* ----- Barre latérale ----- */
+.sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  height: 100vh;
+  padding: 24px 18px;
+  overflow-y: auto;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  animation: slide-in 0.5s var(--ease-out) both;
 }
 
+/* ----- Zone principale ----- */
+.main {
+  min-width: 0;
+  padding: 28px 32px 40px;
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 18px;
+  animation: rise 0.5s var(--ease-out) 0.05s both;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+h2 {
+  margin: 2px 0 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.summary {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.summary strong {
+  color: var(--text);
+}
+
+/* ----- Message d'erreur ----- */
 .error {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 12px;
+  margin-top: 14px;
   padding: 10px 12px;
   color: var(--high);
   background: var(--high-soft);
@@ -70,8 +117,12 @@
   animation: shake-in 0.5s var(--ease-out);
 }
 
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(-16px); }
+}
+
 @keyframes rise {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(12px); }
 }
 
 @keyframes shake-in {
@@ -82,13 +133,22 @@
   100% { transform: none; }
 }
 
-@media (max-width: 520px) {
-  :host {
-    padding-top: 24px;
+/* ----- Tablette et mobile : la barre latérale passe au-dessus ----- */
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
   }
 
-  .panel {
-    padding: 14px;
-    border-radius: 20px;
+  .sidebar {
+    position: static;
+    height: auto;
+    gap: 16px;
+    padding: 18px 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .main {
+    padding: 20px 16px 32px;
   }
 }

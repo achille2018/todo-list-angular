@@ -1,35 +1,59 @@
-@if (loading()) {
-  <ul class="list" aria-busy="true">
-    @for (s of skeletons; track s) {
-      <li class="skeleton" [style.animation-delay]="s * 0.12 + 's'"></li>
-    }
-  </ul>
-} @else {
-  <ul class="list">
-    @for (todo of todos(); track todo.id; let i = $index) {
-      <li animate.enter="todo-enter" animate.leave="todo-leave" [style.--delay]="i * 40 + 'ms'">
-        <app-todo-item
-          [todo]="todo"
-          (toggle)="toggle.emit(todo)"
-          (rename)="rename.emit({ todo, title: $event })"
-          (changePriority)="changePriority.emit({ todo, priority: $event })"
-          (remove)="remove.emit(todo)"
-        />
-      </li>
-    }
-  </ul>
+<div class="board" [class.dragging]="draggedId() !== null">
+  @for (column of columns(); track column.priority; let c = $index) {
+    <section
+      class="column"
+      [attr.data-priority]="column.priority"
+      [class.drop-target]="dropTarget() === column.priority"
+      [style.animation-delay]="0.12 + c * 0.08 + 's'"
+      [attr.aria-label]="'Priorité ' + column.label"
+      (dragover)="onDragOver($event, column.priority)"
+      (dragleave)="onDragLeave($event, column.priority)"
+      (drop)="onDrop($event, column.priority)"
+    >
+      <header class="column-head">
+        <span class="dot"></span>
+        <div class="titles">
+          <h3>{{ column.label }}</h3>
+          <p>{{ column.hint }}</p>
+        </div>
+        <span class="count">{{ loading() ? '…' : column.todos.length }}</span>
+      </header>
 
-  @if (todos().length === 0) {
-    <div class="empty" animate.enter="empty-enter">
-      <svg viewBox="0 0 120 96" aria-hidden="true">
-        <rect class="sheet" x="22" y="10" width="76" height="76" rx="14" />
-        <path class="line" d="M38 34h44M38 48h32M38 62h20" />
-        <circle class="spark s1" cx="104" cy="16" r="4" />
-        <circle class="spark s2" cx="14" cy="70" r="3" />
-        <circle class="spark s3" cx="108" cy="78" r="2.5" />
-      </svg>
-      <p class="title">{{ empty().title }}</p>
-      <p class="text">{{ empty().text }}</p>
-    </div>
+      @if (loading()) {
+        <ul class="cards" aria-busy="true">
+          @for (s of skeletons; track s) {
+            <li class="skeleton" [style.animation-delay]="s * 0.15 + 's'"></li>
+          }
+        </ul>
+      } @else {
+        <ul class="cards">
+          @for (todo of column.todos; track todo.id) {
+            <li
+              draggable="true"
+              animate.enter="card-enter"
+              animate.leave="card-leave"
+              [class.is-dragged]="draggedId() === todo.id"
+              (dragstart)="onDragStart($event, todo)"
+              (dragend)="resetDrag()"
+            >
+              <app-todo-item
+                [todo]="todo"
+                (toggle)="toggle.emit(todo)"
+                (rename)="rename.emit({ todo, title: $event })"
+                (changePriority)="changePriority.emit({ todo, priority: $event })"
+                (remove)="remove.emit(todo)"
+              />
+            </li>
+          }
+        </ul>
+
+        @if (column.todos.length === 0) {
+          <div class="column-empty" animate.enter="empty-enter">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+            {{ emptyText() }}
+          </div>
+        }
+      }
+    </section>
   }
-}
+</div>

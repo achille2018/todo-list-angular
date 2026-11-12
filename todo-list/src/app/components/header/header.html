@@ -30,9 +30,12 @@
 
   <ul class="team" aria-label="Étudiant">
     @for (student of students; track $index) {
-      <li [style.animation-delay]="0.15 + $index * 0.08 + 's'">
-        <span class="avatar" [class]="'avatar avatar-' + ($index % 4)">{{ initials(student) }}</span>
-        {{ student.firstName }} {{ student.lastName }}
+      <li>
+        <span class="avatar">{{ initials(student) }}</span>
+        <span class="who">
+          <span class="name">{{ student.firstName }} {{ student.lastName }}</span>
+          <span class="role">Étudiant</span>
+        </span>
       </li>
     }
   </ul>

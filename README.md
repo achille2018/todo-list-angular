@@ -102,22 +102,26 @@ npm --prefix backend run db:reset
 |---|---|---|
 | Ajouter une tâche | Choisir la priorité, saisir le texte puis **Entrée** (ou **Ajouter**) | `POST /api/todos` |
 | Filtrer | Boutons **All**, **In Progress**, **Done** (avec compteurs) | `GET /api/todos?completed=...` |
-| Trier | Boutons **Priorité** / **Récentes** | aucune (tri dans le navigateur) |
-| Changer la priorité | Clic sur le badge **Haute / Moyenne / Basse** | `PATCH /api/todos/:id` |
-| Terminer / reprendre une tâche | Clic sur le cercle à gauche | `PATCH /api/todos/:id` |
+| Changer la priorité | **Glisser la carte** dans une autre colonne, ou clic sur le badge | `PATCH /api/todos/:id` |
+| Terminer / reprendre une tâche | Clic sur le cercle de la carte | `PATCH /api/todos/:id` |
 | Modifier une tâche | **Double-clic** sur le texte, **Entrée** pour valider | `PATCH /api/todos/:id` |
 | Annuler la modification | **Échap** ou clic à l'extérieur | aucune |
-| Supprimer une tâche | Icône **corbeille** (au survol) | `DELETE /api/todos/:id` |
-| Mode sombre | Bouton soleil / lune en haut à droite | aucune (mémorisé dans le navigateur) |
+| Supprimer une tâche | Icône **corbeille** (au survol de la carte) | `DELETE /api/todos/:id` |
+| Mode sombre | Bouton soleil / lune dans la barre latérale | aucune (mémorisé dans le navigateur) |
 
-### Interface
+### Interface : tableau Kanban
 
-- **Priorités** : chaque tâche a une bande et un badge de couleur (rouge = haute, orange = moyenne,
-  vert = basse). Le tri « Priorité » affiche les tâches en cours d'abord, de la plus urgente à la moins urgente.
+- **Barre latérale** : logo, date, nom de l'étudiant, bouton mode sombre, vues **All / In Progress / Done**
+  avec compteurs, progression et raccourcis clavier.
+- **Tableau** : une colonne par priorité (**Haute**, **Moyenne**, **Basse**), avec des cartes façon Trello.
+  Dans chaque colonne, les tâches en cours sont affichées avant les terminées.
+- **Glisser-déposer** : on attrape une carte et on la dépose dans une autre colonne pour changer sa priorité.
+  La colonne visée s'illumine pendant le déplacement.
 - **Statistiques** : anneau de progression animé, nombre de tâches en cours, terminées et urgentes.
-- **Petits effets** : apparition et disparition animées des tâches, coche qui se dessine, texte barré
+- **Petits effets** : apparition et disparition animées des cartes, coche qui se dessine, texte barré
   progressivement, secousse si on valide un champ vide, squelettes de chargement, confettis quand
-  toutes les tâches sont terminées, fond animé.
+  toutes les tâches sont terminées.
+- **Responsive** : sur tablette et mobile, la barre latérale passe en haut et les colonnes s'empilent.
 - **Accessibilité** : navigation au clavier, libellés ARIA, animations réduites si le système le demande
   (`prefers-reduced-motion`), mise en page adaptée au mobile.
 

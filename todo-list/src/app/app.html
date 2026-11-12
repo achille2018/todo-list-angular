@@ -1,17 +1,23 @@
-<app-header />
+<div class="layout">
+  <aside class="sidebar">
+    <app-header />
+    <app-todo-filter [current]="filter()" [counts]="counts()" />
+    <app-todo-stats [counts]="counts()" />
+    <app-footer />
+  </aside>
 
-<main class="board">
-  <app-todo-stats [counts]="counts()" />
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <p class="eyebrow">Tableau</p>
+        <h2>{{ heading() }}</h2>
+      </div>
+      <p class="summary">
+        <strong>{{ visibleTodos().length }}</strong> tâche(s) affichée(s)
+      </p>
+    </div>
 
-  <section class="panel">
     <app-todo-form (add)="addTodo($event)" />
-
-    <app-todo-filter
-      [current]="filter()"
-      [counts]="counts()"
-      [sort]="sort()"
-      (sortChange)="sort.set($event)"
-    />
 
     @if (error()) {
       <div class="error" role="alert" animate.enter="error-enter">
@@ -33,7 +39,5 @@
       (changePriority)="changePriority($event)"
       (remove)="deleteTodo($event)"
     />
-  </section>
-</main>
-
-<app-footer />
+  </main>
+</div>
