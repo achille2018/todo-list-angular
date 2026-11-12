@@ -41,7 +41,7 @@ Ouvrir **http://localhost:4200**. Le backend doit tourner sur http://localhost:3
 |---|---|
 | `npm start` | Démarre le serveur de développement |
 | `npm run build` | Compile l'application dans `dist/todo-list` |
-| `npm test` | Lance les tests unitaires (Vitest) |
+| `npm test` | Lance les tests unitaires (Vitest), dont ceux de la directive `appInlineEdit` |
 
 ## Fonctionnalités
 
@@ -50,9 +50,10 @@ Ouvrir **http://localhost:4200**. Le backend doit tourner sur http://localhost:3
 | Ajouter une tâche | Saisir le texte, choisir la priorité puis **Entrée** (ou **Ajouter**) | `POST /api/todos` |
 | Filtrer | Onglets **All**, **In Progress**, **Done** | `GET /api/todos?completed=...` |
 | Terminer / reprendre une tâche | Cocher la case | `PATCH /api/todos/:id` |
+| Changer la priorité | Liste déroulante sur la tâche | `PATCH /api/todos/:id` |
 | Modifier une tâche | **Double-clic** sur le texte, **Entrée** pour valider | `PATCH /api/todos/:id` |
 | Annuler la modification | **Échap** ou clic à l'extérieur | aucune |
-| Supprimer une tâche | Bouton **×** | `DELETE /api/todos/:id` |
+| Supprimer une tâche | Bouton **×**, puis confirmer | `DELETE /api/todos/:id` |
 
 ## Architecture
 
@@ -65,13 +66,13 @@ src/
     ├── app.config.ts              Providers : routeur + HttpClient
     ├── models/todo.ts             Interface Todo, priorités et filtres
     ├── services/todo.ts           TodoService : toutes les requêtes HTTP
-    ├── directives/inline-edit.ts  Directive appInlineEdit (édition au double-clic)
+    ├── directives/inline-edit.ts  Directive appInlineEdit (édition au double-clic) + tests
     └── components/
         ├── header/                Titre + nom de l'étudiant
         ├── todo-form/             Champ de saisie + liste déroulante de priorité + bouton
         ├── todo-filter/           Onglets All / In Progress / Done
         ├── todo-list/             Liste des tâches
-        ├── todo-item/             Une tâche : case, texte éditable, priorité, bouton ×
+        ├── todo-item/             Une tâche : case, texte éditable, priorité modifiable, bouton ×
         └── footer/                Nombre de tâches
 ```
 

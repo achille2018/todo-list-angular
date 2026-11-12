@@ -103,9 +103,10 @@ npm --prefix backend run db:reset
 | Ajouter une tâche | Saisir le texte, choisir la priorité puis **Entrée** (ou **Ajouter**) | `POST /api/todos` |
 | Filtrer | Onglets **All**, **In Progress**, **Done** | `GET /api/todos?completed=...` |
 | Terminer / reprendre une tâche | Cocher la case | `PATCH /api/todos/:id` |
+| Changer la priorité | Liste déroulante sur la tâche | `PATCH /api/todos/:id` |
 | Modifier une tâche | **Double-clic** sur le texte, **Entrée** pour valider | `PATCH /api/todos/:id` |
 | Annuler la modification | **Échap** ou clic à l'extérieur | aucune |
-| Supprimer une tâche | Bouton **×** | `DELETE /api/todos/:id` |
+| Supprimer une tâche | Bouton **×**, puis confirmer | `DELETE /api/todos/:id` |
 
 ### Interface
 

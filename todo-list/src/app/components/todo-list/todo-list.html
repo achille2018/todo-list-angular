@@ -4,6 +4,7 @@
       [todo]="todo"
       (toggle)="toggle.emit(todo)"
       (rename)="rename.emit({ todo, title: $event })"
+      (changePriority)="changePriority.emit({ todo, priority: $event })"
       (remove)="remove.emit(todo)"
     />
   } @empty {

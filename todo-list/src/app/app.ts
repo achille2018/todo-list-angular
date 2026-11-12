@@ -69,6 +69,10 @@ export class App implements OnInit {
     this.todoService.update(event.todo.id, { title: event.title }).subscribe(() => this.loadTodos());
   }
 
+  protected changePriority(event: { todo: Todo; priority: TodoPriority }): void {
+    this.todoService.update(event.todo.id, { priority: event.priority }).subscribe(() => this.loadTodos());
+  }
+
   protected deleteTodo(todo: Todo): void {
     this.todoService.delete(todo.id).subscribe(() => this.loadTodos());
   }

@@ -8,9 +8,16 @@
     (edited)="rename.emit($event)"
   >{{ todo().title }}</span>
 
-  <span class="priority" [class]="'priority ' + (todo().priority || 'medium')">
-    {{ labels[todo().priority || 'medium'] }}
-  </span>
+  <select
+    #prioritySelect
+    [class]="'priority ' + (todo().priority || 'medium')"
+    aria-label="Priorité"
+    (change)="onPriorityChange(prioritySelect)"
+  >
+    <option value="high" [selected]="todo().priority === 'high'">Haute</option>
+    <option value="medium" [selected]="!todo().priority || todo().priority === 'medium'">Moyenne</option>
+    <option value="low" [selected]="todo().priority === 'low'">Basse</option>
+  </select>
 
-  <button type="button" class="delete" aria-label="Supprimer" (click)="remove.emit()">×</button>
+  <button type="button" class="delete" aria-label="Supprimer" (click)="onDelete()">×</button>
 </li>

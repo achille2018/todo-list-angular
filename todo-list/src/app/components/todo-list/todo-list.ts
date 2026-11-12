@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Todo } from '../../models/todo';
+import { Todo, TodoPriority } from '../../models/todo';
 import { TodoItem } from '../todo-item/todo-item';
 
 @Component({
@@ -13,5 +13,6 @@ export class TodoList {
 
   readonly toggle = output<Todo>();
   readonly rename = output<{ todo: Todo; title: string }>();
+  readonly changePriority = output<{ todo: Todo; priority: TodoPriority }>();
   readonly remove = output<Todo>();
 }
