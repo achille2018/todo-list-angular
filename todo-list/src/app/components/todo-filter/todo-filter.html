@@ -1,34 +1,9 @@
-<nav aria-label="Filtrer les tâches">
-  <p class="section">Vues</p>
+<nav>
   @for (f of filters; track f.value) {
     <a
       routerLink="/"
       [queryParams]="{ filter: f.value }"
       [class.active]="current() === f.value"
-      [attr.aria-current]="current() === f.value ? 'page' : null"
-    >
-      @switch (f.value) {
-        @case ('all') {
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="4" width="5" height="16" rx="1.5" />
-            <rect x="10" y="4" width="5" height="11" rx="1.5" />
-            <rect x="17" y="4" width="4" height="7" rx="1.5" />
-          </svg>
-        }
-        @case ('active') {
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="8.5" stroke-dasharray="3 3" />
-          </svg>
-        }
-        @case ('done') {
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="8.5" />
-            <path d="M8.5 12.2l2.4 2.4 4.7-4.9" />
-          </svg>
-        }
-      }
-      <span class="label">{{ f.label }}</span>
-      <span class="count">{{ counts()[f.count] }}</span>
-    </a>
+    >{{ f.label }}</a>
   }
 </nav>

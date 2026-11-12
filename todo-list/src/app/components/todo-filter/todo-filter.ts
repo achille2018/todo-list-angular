@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { TodoCounts, TodoFilter } from '../../models/todo';
+import { TodoFilter } from '../../models/todo';
 
 @Component({
   selector: 'app-todo-filter',
@@ -10,11 +10,10 @@ import { TodoCounts, TodoFilter } from '../../models/todo';
 })
 export class TodoFilterBar {
   readonly current = input<TodoFilter>('all');
-  readonly counts = input<TodoCounts>({ all: 0, active: 0, done: 0, urgent: 0 });
 
-  protected readonly filters: { value: TodoFilter; label: string; count: keyof TodoCounts }[] = [
-    { value: 'all', label: 'All', count: 'all' },
-    { value: 'active', label: 'In Progress', count: 'active' },
-    { value: 'done', label: 'Done', count: 'done' },
+  protected readonly filters: { value: TodoFilter; label: string }[] = [
+    { value: 'all', label: 'All' },
+    { value: 'active', label: 'In Progress' },
+    { value: 'done', label: 'Done' },
   ];
 }

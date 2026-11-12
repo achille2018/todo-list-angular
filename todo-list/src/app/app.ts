@@ -1,19 +1,20 @@
 import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { forkJoin } from 'rxjs';
 import { Footer } from './components/footer/footer';
 import { Header } from './components/header/header';
 import { TodoFilterBar } from './components/todo-filter/todo-filter';
 import { TodoForm } from './components/todo-form/todo-form';
 import { TodoList } from './components/todo-list/todo-list';
-import { TodoStats } from './components/todo-stats/todo-stats';
-import { countTodos, sortTodos, Todo, TodoFilter, TodoPriority } from './models/todo';
+import { Todo, TodoFilter, TodoPriority } from './models/todo';
 import { TodoService } from './services/todo';
+
+/** Ordre d'affichage : haute, puis moyenne, puis basse */
+const PRIORITY_ORDER: Record<TodoPriority, number> = { high: 0, medium: 1, low: 2 };
 
 @Component({
   selector: 'app-root',
-  imports: [Header, TodoStats, TodoForm, TodoFilterBar, TodoList, Footer],
+  imports: [Header, TodoForm, TodoFilterBar, TodoList, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -22,27 +23,18 @@ export class App implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
 
-  /** Tâches renvoyées par l'API pour le filtre actif */
-  private readonly todos = signal<Todo[]>([]);
-  /** Toutes les tâches, pour les statistiques et les compteurs */
-  private readonly allTodos = signal<Todo[]>([]);
-
+  protected readonly todos = signal<Todo[]>([]);
   protected readonly filter = signal<TodoFilter>('all');
-  protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
 
-  /** Dans chaque colonne : tâches en cours d'abord, puis les plus récentes */
-  protected readonly visibleTodos = computed(() => sortTodos(this.todos(), 'priority'));
-  protected readonly counts = computed(() => countTodos(this.allTodos()));
+  /** Tâches triées par priorité */
+  protected readonly sortedTodos = computed(() =>
+    [...this.todos()].sort(
+      (a, b) => PRIORITY_ORDER[a.priority ?? 'medium'] - PRIORITY_ORDER[b.priority ?? 'medium'],
+    ),
+  );
 
-  protected readonly heading = computed(() => {
-    const titles: Record<TodoFilter, string> = {
-      all: 'Toutes les tâches',
-      active: 'Tâches en cours',
-      done: 'Tâches terminées',
-    };
-    return titles[this.filter()];
-  });
+  protected readonly remaining = computed(() => this.todos().filter((t) => !t.completed).length);
 
   ngOnInit(): void {
     // Le filtre est lu depuis le paramètre d'URL ?filter=all|active|done
@@ -56,20 +48,12 @@ export class App implements OnInit {
   }
 
   protected loadTodos(): void {
-    forkJoin({
-      list: this.todoService.getAll(this.filter()),
-      all: this.todoService.getAll('all'),
-    }).subscribe({
-      next: ({ list, all }) => {
-        this.todos.set(list);
-        this.allTodos.set(all);
+    this.todoService.getAll(this.filter()).subscribe({
+      next: (todos) => {
+        this.todos.set(todos);
         this.error.set(null);
-        this.loading.set(false);
       },
-      error: () => {
-        this.error.set("Impossible de joindre l'API. Lancez le backend avec « npm run api ».");
-        this.loading.set(false);
-      },
+      error: () => this.error.set("Impossible de joindre l'API (lancez le backend : npm run api)."),
     });
   }
 
@@ -83,10 +67,6 @@ export class App implements OnInit {
 
   protected renameTodo(event: { todo: Todo; title: string }): void {
     this.todoService.update(event.todo.id, { title: event.title }).subscribe(() => this.loadTodos());
-  }
-
-  protected changePriority(event: { todo: Todo; priority: TodoPriority }): void {
-    this.todoService.update(event.todo.id, { priority: event.priority }).subscribe(() => this.loadTodos());
   }
 
   protected deleteTodo(todo: Todo): void {

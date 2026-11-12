@@ -1,59 +1,12 @@
-<div class="board" [class.dragging]="draggedId() !== null">
-  @for (column of columns(); track column.priority; let c = $index) {
-    <section
-      class="column"
-      [attr.data-priority]="column.priority"
-      [class.drop-target]="dropTarget() === column.priority"
-      [style.animation-delay]="0.12 + c * 0.08 + 's'"
-      [attr.aria-label]="'Priorité ' + column.label"
-      (dragover)="onDragOver($event, column.priority)"
-      (dragleave)="onDragLeave($event, column.priority)"
-      (drop)="onDrop($event, column.priority)"
-    >
-      <header class="column-head">
-        <span class="dot"></span>
-        <div class="titles">
-          <h3>{{ column.label }}</h3>
-          <p>{{ column.hint }}</p>
-        </div>
-        <span class="count">{{ loading() ? '…' : column.todos.length }}</span>
-      </header>
-
-      @if (loading()) {
-        <ul class="cards" aria-busy="true">
-          @for (s of skeletons; track s) {
-            <li class="skeleton" [style.animation-delay]="s * 0.15 + 's'"></li>
-          }
-        </ul>
-      } @else {
-        <ul class="cards">
-          @for (todo of column.todos; track todo.id) {
-            <li
-              draggable="true"
-              animate.enter="card-enter"
-              animate.leave="card-leave"
-              [class.is-dragged]="draggedId() === todo.id"
-              (dragstart)="onDragStart($event, todo)"
-              (dragend)="resetDrag()"
-            >
-              <app-todo-item
-                [todo]="todo"
-                (toggle)="toggle.emit(todo)"
-                (rename)="rename.emit({ todo, title: $event })"
-                (changePriority)="changePriority.emit({ todo, priority: $event })"
-                (remove)="remove.emit(todo)"
-              />
-            </li>
-          }
-        </ul>
-
-        @if (column.todos.length === 0) {
-          <div class="column-empty" animate.enter="empty-enter">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
-            {{ emptyText() }}
-          </div>
-        }
-      }
-    </section>
+<ul>
+  @for (todo of todos(); track todo.id) {
+    <app-todo-item
+      [todo]="todo"
+      (toggle)="toggle.emit(todo)"
+      (rename)="rename.emit({ todo, title: $event })"
+      (remove)="remove.emit(todo)"
+    />
+  } @empty {
+    <li class="empty">Aucune tâche pour le moment.</li>
   }
-</div>
+</ul>

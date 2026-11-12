@@ -1,249 +1,66 @@
-.card {
-  --c: var(--medium);
-  --c-soft: var(--medium-soft);
-  position: relative;
-  padding: 14px 14px 10px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-  transition: transform 0.25s var(--ease-out), box-shadow 0.25s, border-color 0.25s, opacity 0.3s;
-}
-
-.card[data-priority='high'] { --c: var(--high); --c-soft: var(--high-soft); }
-.card[data-priority='low'] { --c: var(--low); --c-soft: var(--low-soft); }
-
-/* Fine bande de couleur en haut de la carte */
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto;
-  height: 3px;
-  background: var(--c);
-  opacity: 0.85;
-  transition: height 0.25s var(--ease-out);
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow);
-}
-
-.card:hover::before {
-  height: 4px;
-}
-
-.card.done {
-  background: var(--surface-muted);
-}
-
-.card.done::before {
-  background: var(--text-faint);
-}
-
-/* ----- Ligne du haut : case + titre ----- */
-.card-top {
+li {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 4px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.check {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 22px;
-  height: 22px;
-  margin-top: 1px;
-  padding: 0;
-  background: transparent;
-  border: 2px solid var(--border-strong);
-  border-radius: 50%;
+li:hover {
+  background: #fafafa;
+}
+
+input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: #0f766e;
   cursor: pointer;
-  transition: background 0.25s, border-color 0.25s, transform 0.2s var(--ease-spring);
-}
-
-.check:hover {
-  border-color: var(--c);
-  transform: scale(1.12);
-}
-
-.check svg {
-  width: 13px;
-  height: 13px;
-  fill: none;
-  stroke: #fff;
-  stroke-width: 3.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 24;
-  stroke-dashoffset: 24;
-  transition: stroke-dashoffset 0.35s var(--ease-out) 0.05s;
-}
-
-.done .check {
-  background: var(--low);
-  border-color: var(--low);
-  animation: check-pop 0.4s var(--ease-spring);
-}
-
-.done .check svg {
-  stroke-dashoffset: 0;
 }
 
 .title {
   flex: 1;
-  min-width: 0;
-  font-weight: 600;
-  font-size: 0.93rem;
-  line-height: 1.4;
-  word-break: break-word;
   cursor: text;
   user-select: none;
-  transition: color 0.3s;
 }
 
-/* Le trait qui barre le texte se dessine progressivement (ligne par ligne) */
-.text {
-  background: linear-gradient(currentColor, currentColor) no-repeat 0 55% / 0 1.5px;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-  transition: background-size 0.35s var(--ease-out);
+li.done .title {
+  color: #9ca3af;
+  text-decoration: line-through;
 }
 
-.done .title {
-  color: var(--text-muted);
-}
-
-.done .text {
-  background-size: 100% 1.5px;
-}
-
-/* ----- Ligne du bas : badge, date, corbeille ----- */
-.card-bottom {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-  padding-left: 32px;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+/* Priorité */
+.priority {
+  font-size: 0.75rem;
+  font-weight: 600;
   padding: 2px 8px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--c);
-  background: var(--c-soft);
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: transform 0.2s var(--ease-spring);
+  border-radius: 10px;
 }
 
-.badge:hover {
-  transform: scale(1.07);
+.priority.high {
+  color: #b91c1c;
+  background: #fee2e2;
 }
 
-.badge:active {
-  transform: scale(0.92);
+.priority.medium {
+  color: #b45309;
+  background: #fef3c7;
 }
 
-.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-}
-
-.card[data-priority='high']:not(.done) .dot {
-  animation: blink 1.6s ease-in-out infinite;
-}
-
-.date {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  min-width: 0;
-  font-size: 0.72rem;
-  color: var(--text-faint);
-  white-space: nowrap;
-}
-
-.date svg {
-  flex: none;
-  width: 12px;
-  height: 12px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
+.priority.low {
+  color: #047857;
+  background: #d1fae5;
 }
 
 .delete {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 30px;
-  height: 30px;
-  margin-left: auto;
-  padding: 0;
-  color: var(--text-faint);
+  font-size: 1.3rem;
+  line-height: 1;
+  padding: 0 6px;
+  color: #d1d5db;
   background: none;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s, color 0.2s, background 0.2s;
-}
-
-.card:hover .delete,
-.delete:focus-visible {
-  opacity: 1;
 }
 
 .delete:hover {
-  color: var(--high);
-  background: var(--high-soft);
-}
-
-.delete:hover svg {
-  animation: wiggle 0.4s ease-in-out;
-}
-
-.delete svg {
-  width: 16px;
-  height: 16px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* Écrans tactiles : pas de survol, la corbeille reste visible */
-@media (hover: none) {
-  .delete {
-    opacity: 1;
-  }
-}
-
-@keyframes check-pop {
-  0% { transform: scale(0.8); }
-  60% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
-@keyframes blink {
-  50% { opacity: 0.35; }
-}
-
-@keyframes wiggle {
-  25% { transform: rotate(-12deg); }
-  75% { transform: rotate(12deg); }
+  color: #b91c1c;
 }

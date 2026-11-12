@@ -100,28 +100,19 @@ npm --prefix backend run db:reset
 
 | Fonctionnalité | Utilisation | Requête HTTP |
 |---|---|---|
-| Ajouter une tâche | Choisir la priorité, saisir le texte puis **Entrée** (ou **Ajouter**) | `POST /api/todos` |
-| Filtrer | Boutons **All**, **In Progress**, **Done** (avec compteurs) | `GET /api/todos?completed=...` |
-| Changer la priorité | **Glisser la carte** dans une autre colonne, ou clic sur le badge | `PATCH /api/todos/:id` |
-| Terminer / reprendre une tâche | Clic sur le cercle de la carte | `PATCH /api/todos/:id` |
+| Ajouter une tâche | Saisir le texte, choisir la priorité puis **Entrée** (ou **Ajouter**) | `POST /api/todos` |
+| Filtrer | Onglets **All**, **In Progress**, **Done** | `GET /api/todos?completed=...` |
+| Terminer / reprendre une tâche | Cocher la case | `PATCH /api/todos/:id` |
 | Modifier une tâche | **Double-clic** sur le texte, **Entrée** pour valider | `PATCH /api/todos/:id` |
 | Annuler la modification | **Échap** ou clic à l'extérieur | aucune |
-| Supprimer une tâche | Icône **corbeille** (au survol de la carte) | `DELETE /api/todos/:id` |
-| Mode sombre | Bouton soleil / lune dans la barre latérale | aucune (mémorisé dans le navigateur) |
+| Supprimer une tâche | Bouton **×** | `DELETE /api/todos/:id` |
 
-### Interface : tableau Kanban
+### Interface
 
-- **Barre latérale** : logo, date, nom de l'étudiant, bouton mode sombre, vues **All / In Progress / Done**
-  avec compteurs, progression et raccourcis clavier.
-- **Tableau** : une colonne par priorité (**Haute**, **Moyenne**, **Basse**), avec des cartes façon Trello.
-  Dans chaque colonne, les tâches en cours sont affichées avant les terminées.
-- **Glisser-déposer** : on attrape une carte et on la dépose dans une autre colonne pour changer sa priorité.
-  La colonne visée s'illumine pendant le déplacement.
-- **Statistiques** : anneau de progression animé, nombre de tâches en cours, terminées et urgentes.
-- **Petits effets** : apparition et disparition animées des cartes, coche qui se dessine, texte barré
-  progressivement, secousse si on valide un champ vide, squelettes de chargement, confettis quand
-  toutes les tâches sont terminées.
-- **Responsive** : sur tablette et mobile, la barre latérale passe en haut et les colonnes s'empilent.
+Design volontairement simple et sobre : une carte blanche centrée, une couleur d'accent (vert canard),
+des onglets pour les filtres et une étiquette de couleur pour la priorité
+(rouge = haute, orange = moyenne, vert = basse). Les tâches sont affichées de la plus urgente à la moins urgente.
+Sur mobile, la carte prend toute la largeur.
 - **Accessibilité** : navigation au clavier, libellés ARIA, animations réduites si le système le demande
   (`prefers-reduced-motion`), mise en page adaptée au mobile.
 

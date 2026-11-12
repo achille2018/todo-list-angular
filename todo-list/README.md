@@ -47,52 +47,39 @@ Ouvrir **http://localhost:4200**. Le backend doit tourner sur http://localhost:3
 
 | Fonctionnalité | Utilisation | Requête HTTP |
 |---|---|---|
-| Ajouter une tâche | Choisir la priorité, saisir le texte puis **Entrée** (ou **Ajouter**) | `POST /api/todos` |
-| Filtrer | Boutons **All**, **In Progress**, **Done** (avec compteurs) | `GET /api/todos?completed=...` |
-| Changer la priorité | **Glisser la carte** dans une autre colonne, ou clic sur le badge | `PATCH /api/todos/:id` |
-| Terminer / reprendre une tâche | Clic sur le cercle de la carte | `PATCH /api/todos/:id` |
+| Ajouter une tâche | Saisir le texte, choisir la priorité puis **Entrée** (ou **Ajouter**) | `POST /api/todos` |
+| Filtrer | Onglets **All**, **In Progress**, **Done** | `GET /api/todos?completed=...` |
+| Terminer / reprendre une tâche | Cocher la case | `PATCH /api/todos/:id` |
 | Modifier une tâche | **Double-clic** sur le texte, **Entrée** pour valider | `PATCH /api/todos/:id` |
 | Annuler la modification | **Échap** ou clic à l'extérieur | aucune |
-| Supprimer une tâche | Icône **corbeille** (au survol de la carte) | `DELETE /api/todos/:id` |
-| Mode sombre | Bouton soleil / lune dans la barre latérale | aucune (mémorisé dans `localStorage`) |
+| Supprimer une tâche | Bouton **×** | `DELETE /api/todos/:id` |
 
 ## Architecture
 
 ```
 src/
 ├── environments/               URL de l'API (apiUrl)
-├── styles.css                  Thème clair / sombre (variables CSS), fond pointillé
+├── styles.css                  Styles globaux
 └── app/
-    ├── app.ts / app.html          Mise en page (barre latérale + tableau), état, appels au service
+    ├── app.ts / app.html          Composant racine : liste, filtre, tri par priorité, appels au service
     ├── app.config.ts              Providers : routeur + HttpClient
-    ├── models/todo.ts             Todo, priorités, filtres, fonctions de tri et de comptage
+    ├── models/todo.ts             Interface Todo, priorités et filtres
     ├── services/todo.ts           TodoService : toutes les requêtes HTTP
     ├── directives/inline-edit.ts  Directive appInlineEdit (édition au double-clic)
-    ├── pipes/relative-time-pipe.ts  « il y a 5 minutes »
     └── components/
-        ├── header/                Logo, date, nom de l'étudiant, bouton mode sombre
-        ├── todo-filter/           Vues All / In Progress / Done (barre latérale)
-        ├── todo-stats/            Anneau de progression, compteurs, confettis
-        ├── footer/                Raccourcis clavier
-        ├── todo-form/             Champ de saisie + choix de la priorité
-        ├── todo-list/             Tableau Kanban : colonnes par priorité, glisser-déposer
-        └── todo-item/             Carte : case, texte éditable, badge priorité, corbeille
+        ├── header/                Titre + nom de l'étudiant
+        ├── todo-form/             Champ de saisie + liste déroulante de priorité + bouton
+        ├── todo-filter/           Onglets All / In Progress / Done
+        ├── todo-list/             Liste des tâches
+        ├── todo-item/             Une tâche : case, texte éditable, priorité, bouton ×
+        └── footer/                Nombre de tâches
 ```
 
-### Design et effets
+### Design
 
-- **Kanban** : `todo-list` regroupe les tâches par priorité en trois colonnes. Le glisser-déposer utilise
-  l'API HTML5 native (`draggable`, `dragstart`, `dragover`, `drop`) : déposer une carte dans une autre
-  colonne émet `changePriority`, qui envoie un `PATCH` au backend. Le glisser est désactivé pendant
-  l'édition d'un titre.
-- **Thème** : toutes les couleurs sont des variables CSS dans `styles.css` ; le mode sombre redéfinit ces
-  variables sous `:root[data-theme='dark']`. Le choix est mémorisé, sinon le thème du système est utilisé.
-- **Animations d'entrée / sortie** : `animate.enter` et `animate.leave` (API native d'Angular 20.2+) sur
-  chaque carte ; une carte qui change de colonne sort de l'une et entre dans l'autre en douceur.
-- **Effets CSS** : coche dessinée avec `stroke-dashoffset`, texte barré avec `background-size`
-  (ligne par ligne grâce à `box-decoration-break`), anneau de progression SVG, confettis en `@keyframes`,
-  secousse du champ vide.
-- `prefers-reduced-motion` désactive les animations pour les personnes qui le demandent.
+Design simple : une carte blanche centrée avec une bordure de couleur en haut, une seule couleur
+d'accent (`#0f766e`), des onglets soulignés pour les filtres et une étiquette colorée pour la priorité.
+Chaque composant a son propre fichier CSS, sans librairie externe.
 
 ### Flux des données
 
