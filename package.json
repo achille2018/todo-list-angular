@@ -1,0 +1,8 @@
+{
+  "name": "angular-examne",
+  "private": true,
+  "scripts": {
+    "start": "npm --prefix todo-list start",
+    "api": "npm --prefix todo-list run api"
+  }
+}

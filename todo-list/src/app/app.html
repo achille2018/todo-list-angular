@@ -1,0 +1,19 @@
+<app-header />
+
+<main class="card">
+  <app-todo-form (add)="addTodo($event)" />
+  <app-todo-filter [current]="filter()" />
+
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  }
+
+  <app-todo-list
+    [todos]="todos()"
+    (toggle)="toggleTodo($event)"
+    (rename)="renameTodo($event)"
+    (remove)="deleteTodo($event)"
+  />
+</main>
+
+<app-footer [count]="count()" [filter]="filter()" />

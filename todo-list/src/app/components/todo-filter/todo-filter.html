@@ -1,0 +1,9 @@
+<nav>
+  @for (f of filters; track f.value) {
+    <a
+      routerLink="/"
+      [queryParams]="{ filter: f.value }"
+      [class.active]="current() === f.value"
+    >{{ f.label }}</a>
+  }
+</nav>

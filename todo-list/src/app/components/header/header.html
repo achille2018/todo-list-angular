@@ -1,0 +1,8 @@
+<header>
+  <h1>TODO LIST</h1>
+  <ul class="students">
+    @for (student of students; track $index) {
+      <li>{{ student.firstName }} {{ student.lastName }}</li>
+    }
+  </ul>
+</header>

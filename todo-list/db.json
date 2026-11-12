@@ -1,0 +1,34 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "title": "Préparer l'examen Angular",
+      "completed": true
+    },
+    {
+      "id": 2,
+      "title": "Installer Angular CLI",
+      "completed": true
+    },
+    {
+      "id": 3,
+      "title": "Créer la directive d'édition inline",
+      "completed": true
+    },
+    {
+      "title": "jouer au jeux video",
+      "completed": false,
+      "id": 4
+    },
+    {
+      "title": "aller au cour",
+      "completed": false,
+      "id": 5
+    },
+    {
+      "title": "voila",
+      "completed": false,
+      "id": 6
+    }
+  ]
+}

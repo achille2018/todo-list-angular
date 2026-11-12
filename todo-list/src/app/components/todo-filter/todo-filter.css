@@ -1,0 +1,7 @@
+nav { display: flex; gap: 8px; margin: 16px 0; }
+a {
+  flex: 1; text-align: center; text-decoration: none; color: #555;
+  padding: 8px; border: 1px solid #d0d5e0; border-radius: 8px; cursor: pointer;
+}
+a:hover { background: #f2f4f8; }
+a.active { background: #4a6cf7; border-color: #4a6cf7; color: #fff; }

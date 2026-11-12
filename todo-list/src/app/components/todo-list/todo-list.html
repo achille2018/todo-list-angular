@@ -1,0 +1,12 @@
+<ul>
+  @for (todo of todos(); track todo.id) {
+    <app-todo-item
+      [todo]="todo"
+      (toggle)="toggle.emit(todo)"
+      (rename)="rename.emit({ todo, title: $event })"
+      (remove)="remove.emit(todo)"
+    />
+  } @empty {
+    <li class="empty">Aucune tâche.</li>
+  }
+</ul>

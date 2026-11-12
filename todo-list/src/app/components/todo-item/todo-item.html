@@ -1,0 +1,12 @@
+<li [class.done]="todo().completed">
+  <input type="checkbox" [checked]="todo().completed" (change)="toggle.emit()" />
+
+  <span
+    class="title"
+    title="Double-cliquez pour modifier"
+    [appInlineEdit]="todo().title"
+    (edited)="rename.emit($event)"
+  >{{ todo().title }}</span>
+
+  <button type="button" class="delete" aria-label="Supprimer" (click)="remove.emit()">×</button>
+</li>
