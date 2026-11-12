@@ -2,7 +2,10 @@
   "name": "angular-examne",
   "private": true,
   "scripts": {
+    "setup": "npm --prefix backend install && npm --prefix todo-list install",
+    "api": "npm --prefix backend run dev",
     "start": "npm --prefix todo-list start",
-    "api": "npm --prefix todo-list run api"
-  }
+    "test": "npm --prefix backend test && npm --prefix todo-list test -- --watch=false"
+  },
+  "description": "Application TODO LIST : frontend Angular + backend Node.js/Express"
 }

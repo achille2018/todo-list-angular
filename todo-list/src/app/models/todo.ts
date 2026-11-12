@@ -2,6 +2,8 @@ export interface Todo {
   id: number;
   title: string;
   completed: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 /** Valeur du filtre, passée en paramètre d'URL (?filter=...) */

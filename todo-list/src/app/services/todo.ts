@@ -2,13 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Todo, TodoFilter } from '../models/todo';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodoService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:3000/todos';
+  private readonly apiUrl = `${environment.apiUrl}/todos`;
 
   /** GET /todos — le filtre est envoyé en paramètre HTTP (?completed=true|false) */
   getAll(filter: TodoFilter = 'all'): Observable<Todo[]> {

@@ -42,7 +42,7 @@ export class App implements OnInit {
         this.todos.set(todos);
         this.error.set(null);
       },
-      error: () => this.error.set("Impossible de joindre l'API (lancez « npm run api »)."),
+      error: () => this.error.set("Impossible de joindre l'API (lancez le backend : « npm run api »)."),
     });
   }
 
