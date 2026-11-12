@@ -24,29 +24,77 @@ ANGULAR EXAMNE/
 - [Node.js](https://nodejs.org/) **22 ou 24 (LTS)** recommandé (minimum 20.12)
 - npm (installé avec Node.js)
 
-## Installation
+## Démarrage pas à pas
 
-Depuis la racine du dépôt :
+> Toutes les commandes se lancent depuis le dossier **racine** du projet (`ANGULAR EXAMNE`),
+> pas depuis `todo-list` ni `backend`.
+
+### 1. Installer les dépendances (une seule fois)
 
 ```bash
+cd "C:\Users\achil\OneDrive\Bureau\ANGULAR EXAMNE"
 npm run setup
 ```
 
 Cette commande installe les dépendances du backend **et** du frontend.
+La relancer plus tard ne pose aucun problème.
 
-## Lancement
+### 2. Terminal 1 : démarrer le backend
 
-Ouvrir **deux terminaux** à la racine du dépôt :
+```bash
+npm run api
+```
+
+Attendre le message :
+
+```
+API TODO LIST démarrée sur http://localhost:3000/api (development)
+```
+
+### 3. Terminal 2 : démarrer Angular
+
+Ouvrir un **nouveau terminal** (dans VS Code : bouton **+** du panneau Terminal), puis :
+
+```bash
+cd "C:\Users\achil\OneDrive\Bureau\ANGULAR EXAMNE"
+npm start
+```
+
+Attendre le message `Local: http://localhost:4200/`.
+
+### 4. Ouvrir l'application
+
+Aller sur **http://localhost:4200** dans le navigateur.
+
+### Récapitulatif
 
 | Terminal | Commande | Rôle | Adresse |
 |---|---|---|---|
-| 1 | `npm run api` | Démarre le backend (rechargement automatique) | http://localhost:3000/api |
-| 2 | `npm start` | Démarre l'application Angular | http://localhost:4200 |
+| 1 | `npm run api` | Backend (redémarre seul à chaque modification) | http://localhost:3000/api |
+| 2 | `npm start` | Application Angular | http://localhost:4200 |
 
-Ouvrir ensuite **http://localhost:4200** dans le navigateur.
+- Les **deux terminaux** doivent rester ouverts pendant l'utilisation.
+- Pour arrêter : **Ctrl + C** dans chaque terminal.
+- Le backend doit être démarré **avant** d'utiliser l'application, sinon elle affiche
+  « Impossible de joindre l'API ».
 
-> Le backend doit être démarré **avant** d'utiliser l'application, sinon elle affiche
-> « Impossible de joindre l'API ».
+### Vérifier que tout fonctionne
+
+Chaque action dans l'application affiche une ligne dans le terminal du backend :
+
+```
+GET /api/todos 200 - 2.1 ms
+POST /api/todos 201 - 3.4 ms
+PATCH /api/todos/1 200 - 2.8 ms
+DELETE /api/todos/1 204 - 2.5 ms
+```
+
+Les tâches sont enregistrées dans `backend/data/todos.json`.
+Pour revenir aux tâches de départ :
+
+```bash
+npm --prefix backend run db:reset
+```
 
 ## Fonctionnalités
 

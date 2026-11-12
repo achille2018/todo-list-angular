@@ -5,7 +5,27 @@ Elle communique avec le backend Express du dossier `../backend`.
 
 **Étudiant :** Achille SAGANG TANWOUO
 
-> Installation et lancement de l'ensemble du projet : voir le [README principal](../README.md).
+## Démarrage rapide (backend + frontend)
+
+Depuis le dossier **racine** `ANGULAR EXAMNE` (pas depuis `todo-list`) :
+
+```bash
+# 1. Une seule fois : installer les dépendances
+npm run setup
+
+# 2. Terminal 1 : démarrer le backend
+#    attendre « API TODO LIST démarrée sur http://localhost:3000/api »
+npm run api
+
+# 3. Terminal 2 (nouveau terminal) : démarrer Angular
+#    attendre « Local: http://localhost:4200/ »
+npm start
+```
+
+4. Ouvrir **http://localhost:4200** dans le navigateur.
+
+Les deux terminaux doivent rester ouverts. Pour arrêter : **Ctrl + C** dans chacun.
+Détails et problèmes fréquents : voir le [README principal](../README.md).
 
 ## Lancement du frontend seul
 
