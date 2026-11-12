@@ -124,6 +124,64 @@ npm --prefix backend run db:reset
 3. Le backend valide les données, applique la logique métier et enregistre les tâches dans `backend/data/todos.json`.
 4. Angular recharge la liste avec le filtre actif.
 
+## Utiliser JSONPlaceholder à la place du backend
+
+[JSONPlaceholder](https://jsonplaceholder.typicode.com) est une fausse API REST publique.
+Ses tâches ont les mêmes champs que notre modèle (`id`, `title`, `completed`, plus un `userId` ignoré),
+donc l'application fonctionne avec elle **sans modifier le code**.
+
+### Mise en place
+
+1. Ouvrir `todo-list/src/environments/environment.development.ts` et changer `apiUrl` :
+
+   ```ts
+   export const environment = {
+     production: false,
+     apiUrl: 'https://jsonplaceholder.typicode.com',
+   };
+   ```
+
+   > Pas de `/api` à la fin : le service ajoute lui-même `/todos`.
+   > Faire de même dans `environment.ts` pour la version compilée (`npm run build`).
+
+2. Lancer uniquement le frontend (le backend n'est pas nécessaire) :
+
+   ```bash
+   npm start
+   ```
+
+3. Ouvrir **http://localhost:4200**. Une connexion Internet est nécessaire.
+
+### Ce qui fonctionne
+
+| Action | Requête envoyée | Réponse de JSONPlaceholder |
+|---|---|---|
+| Afficher la liste | `GET /todos` | 200 tâches (titres en faux latin) |
+| Filtrer | `GET /todos?completed=true` / `false` | liste filtrée |
+| Ajouter | `POST /todos` | `201` avec `id: 201` |
+| Modifier / cocher | `PATCH /todos/:id` | `200` |
+| Supprimer | `DELETE /todos/:id` | `200` |
+
+### Limite importante : rien n'est enregistré
+
+JSONPlaceholder répond « succès » mais **ne modifie jamais ses données**. Comme l'application
+recharge la liste depuis l'API après chaque action :
+
+- une tâche ajoutée **disparaît** aussitôt ;
+- une tâche supprimée **réapparaît** ;
+- une modification ou une case cochée **revient à l'état précédent**.
+
+Les requêtes HTTP sont pourtant bien envoyées : on peut les voir dans les outils de
+développement du navigateur (**F12 → onglet Réseau**).
+
+> Pour une démonstration complète où les modifications sont conservées, utiliser le backend
+> du projet (`apiUrl: 'http://localhost:3000/api'`).
+
+### Revenir au backend du projet
+
+Remettre `apiUrl: 'http://localhost:3000/api'` dans `environment.development.ts`, puis lancer
+`npm run api` et `npm start` comme indiqué dans [Démarrage pas à pas](#démarrage-pas-à-pas).
+
 ## Commandes utiles (depuis la racine)
 
 | Commande | Rôle |

@@ -99,6 +99,11 @@ export const environment = {
 
 `environment.development.ts` est utilisé par `ng serve`, `environment.ts` par `ng build`.
 
+Pour utiliser l'API publique **JSONPlaceholder** à la place du backend, remplacer l'adresse par
+`'https://jsonplaceholder.typicode.com'` (sans `/api`). Attention : cette API ne conserve aucune
+modification. Voir la section
+[Utiliser JSONPlaceholder](../README.md#utiliser-jsonplaceholder-à-la-place-du-backend) du README principal.
+
 ### Le filtrage par paramètres
 
 1. Chaque bouton est un lien qui ajoute un paramètre à l'URL : `?filter=all`, `?filter=active` ou `?filter=done`.
