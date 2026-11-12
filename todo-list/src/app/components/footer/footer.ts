@@ -1,5 +1,4 @@
-import { Component, input } from '@angular/core';
-import { TodoFilter } from '../../models/todo';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
@@ -7,13 +6,4 @@ import { TodoFilter } from '../../models/todo';
   templateUrl: './footer.html',
   styleUrl: './footer.css',
 })
-export class Footer {
-  readonly count = input(0);
-  readonly filter = input<TodoFilter>('all');
-
-  protected readonly labels: Record<TodoFilter, string> = {
-    all: 'au total',
-    active: 'en cours',
-    done: 'terminée(s)',
-  };
-}
+export class Footer {}

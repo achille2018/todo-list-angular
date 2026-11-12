@@ -25,7 +25,10 @@ if (!parsed.success) {
 export const env = {
   nodeEnv: parsed.data.NODE_ENV,
   port: parsed.data.PORT,
-  corsOrigin: parsed.data.CORS_ORIGIN,
+  /** Origines autorisées, séparées par des virgules dans .env */
+  corsOrigins: parsed.data.CORS_ORIGIN.split(',').map((origin) => origin.trim()).filter(Boolean),
+  /** En développement, Angular peut tourner sur n'importe quel port de localhost */
+  corsAllowLocalhost: parsed.data.NODE_ENV === 'development',
   dataFile: path.resolve(parsed.data.DATA_FILE),
   seedFile: path.resolve('data/seed.json'),
 } as const;

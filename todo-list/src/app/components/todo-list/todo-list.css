@@ -1,2 +1,133 @@
-ul { list-style: none; padding: 0; margin: 0; }
-.empty { text-align: center; color: #999; padding: 20px 0; }
+.list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list > li {
+  display: block;
+}
+
+/* ----- Animations d'entrée / sortie (animate.enter / animate.leave) ----- */
+.todo-enter {
+  animation: todo-in 0.45s var(--ease-out) var(--delay, 0ms) both;
+}
+
+.todo-leave {
+  animation: todo-out 0.35s var(--ease-out) both;
+  overflow: hidden;
+}
+
+@keyframes todo-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+}
+
+@keyframes todo-out {
+  0% {
+    opacity: 1;
+    max-height: 120px;
+  }
+  60% {
+    opacity: 0;
+    transform: translateX(40px);
+    max-height: 120px;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(40px);
+    max-height: 0;
+    margin-top: -8px;
+  }
+}
+
+/* ----- Squelettes pendant le chargement ----- */
+.skeleton {
+  height: 64px;
+  border-radius: var(--radius);
+  background: linear-gradient(
+    90deg,
+    var(--surface-muted) 0%,
+    var(--surface-strong) 50%,
+    var(--surface-muted) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+/* ----- État vide ----- */
+.empty {
+  padding: 28px 16px 20px;
+  text-align: center;
+}
+
+.empty svg {
+  width: 120px;
+  height: 96px;
+  margin-bottom: 6px;
+}
+
+.sheet {
+  fill: var(--primary-soft);
+  stroke: var(--primary);
+  stroke-width: 2;
+  stroke-opacity: 0.35;
+  animation: hover 3.5s ease-in-out infinite;
+}
+
+.line {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-opacity: 0.45;
+  animation: hover 3.5s ease-in-out infinite;
+}
+
+.spark {
+  fill: var(--primary-2);
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+
+.s2 { animation-delay: 0.8s; fill: var(--medium); }
+.s3 { animation-delay: 1.6s; fill: var(--low); }
+
+.empty .title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.empty .text {
+  margin: 2px 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.empty-enter {
+  animation: todo-in 0.5s var(--ease-out) both;
+}
+
+@keyframes hover {
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.7); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.spark,
+.sheet,
+.line {
+  transform-box: fill-box;
+  transform-origin: center;
+}

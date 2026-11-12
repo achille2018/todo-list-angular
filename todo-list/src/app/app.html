@@ -1,19 +1,39 @@
 <app-header />
 
-<main class="card">
-  <app-todo-form (add)="addTodo($event)" />
-  <app-todo-filter [current]="filter()" />
+<main class="board">
+  <app-todo-stats [counts]="counts()" />
 
-  @if (error()) {
-    <p class="error">{{ error() }}</p>
-  }
+  <section class="panel">
+    <app-todo-form (add)="addTodo($event)" />
 
-  <app-todo-list
-    [todos]="todos()"
-    (toggle)="toggleTodo($event)"
-    (rename)="renameTodo($event)"
-    (remove)="deleteTodo($event)"
-  />
+    <app-todo-filter
+      [current]="filter()"
+      [counts]="counts()"
+      [sort]="sort()"
+      (sortChange)="sort.set($event)"
+    />
+
+    @if (error()) {
+      <div class="error" role="alert" animate.enter="error-enter">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 7.5v5.5M12 16.5h.01" />
+        </svg>
+        <span>{{ error() }}</span>
+        <button type="button" (click)="loadTodos()">Réessayer</button>
+      </div>
+    }
+
+    <app-todo-list
+      [todos]="visibleTodos()"
+      [filter]="filter()"
+      [loading]="loading()"
+      (toggle)="toggleTodo($event)"
+      (rename)="renameTodo($event)"
+      (changePriority)="changePriority($event)"
+      (remove)="deleteTodo($event)"
+    />
+  </section>
 </main>
 
-<app-footer [count]="count()" [filter]="filter()" />
+<app-footer />

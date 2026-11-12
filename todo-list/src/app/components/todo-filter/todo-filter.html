@@ -1,9 +1,39 @@
-<nav>
-  @for (f of filters; track f.value) {
-    <a
-      routerLink="/"
-      [queryParams]="{ filter: f.value }"
-      [class.active]="current() === f.value"
-    >{{ f.label }}</a>
-  }
-</nav>
+<div class="toolbar">
+  <nav class="segmented" aria-label="Filtrer les tâches">
+    <span class="indicator" [style.transform]="'translateX(' + activeIndex() * 100 + '%)'"></span>
+    @for (f of filters; track f.value) {
+      <a
+        routerLink="/"
+        [queryParams]="{ filter: f.value }"
+        [class.active]="current() === f.value"
+        [attr.aria-current]="current() === f.value ? 'page' : null"
+      >
+        {{ f.label }}
+        <span class="count">{{ counts()[f.count] }}</span>
+      </a>
+    }
+  </nav>
+
+  <div class="sort" role="group" aria-label="Trier les tâches">
+    <button
+      type="button"
+      [class.active]="sort() === 'priority'"
+      [attr.aria-pressed]="sort() === 'priority'"
+      (click)="sortChange.emit('priority')"
+      title="Trier par priorité"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4" /></svg>
+      Priorité
+    </button>
+    <button
+      type="button"
+      [class.active]="sort() === 'recent'"
+      [attr.aria-pressed]="sort() === 'recent'"
+      (click)="sortChange.emit('recent')"
+      title="Trier par date"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" /><path d="M12 8v4l2.5 2" /></svg>
+      Récentes
+    </button>
+  </div>
+</div>

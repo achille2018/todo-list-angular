@@ -1,7 +1,128 @@
-nav { display: flex; gap: 8px; margin: 16px 0; }
-a {
-  flex: 1; text-align: center; text-decoration: none; color: #555;
-  padding: 8px; border: 1px solid #d0d5e0; border-radius: 8px; cursor: pointer;
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 18px 0 14px;
 }
-a:hover { background: #f2f4f8; }
-a.active { background: #4a6cf7; border-color: #4a6cf7; color: #fff; }
+
+/* ----- Filtres : contrôle segmenté avec pastille glissante ----- */
+.segmented {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  flex: 1 1 320px;
+  padding: 4px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.indicator {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc((100% - 8px) / 3);
+  background: var(--gradient);
+  border-radius: 10px;
+  box-shadow: 0 6px 16px -6px var(--primary);
+  transition: transform 0.45s var(--ease-spring);
+}
+
+.segmented a {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 10px;
+  transition: color 0.25s;
+}
+
+.segmented a:hover {
+  color: var(--text);
+}
+
+.segmented a.active {
+  color: #fff;
+}
+
+.count {
+  min-width: 20px;
+  padding: 0 6px;
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 18px;
+  text-align: center;
+  background: var(--border);
+  border-radius: 999px;
+  transition: background 0.25s;
+}
+
+.segmented a.active .count {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ----- Tri ----- */
+.sort {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.sort button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sort button:hover {
+  color: var(--text);
+}
+
+.sort button.active {
+  color: var(--primary);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.sort svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+@media (max-width: 520px) {
+  .sort {
+    flex: 1;
+  }
+
+  .sort button {
+    flex: 1;
+    justify-content: center;
+  }
+}

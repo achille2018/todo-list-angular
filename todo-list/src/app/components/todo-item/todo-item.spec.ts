@@ -12,7 +12,7 @@ describe('TodoItem', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(TodoItem);
-    fixture.componentRef.setInput('todo', { id: 1, title: 'Test', completed: false });
+    fixture.componentRef.setInput('todo', { id: 1, title: 'Test', completed: false, priority: 'high' });
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

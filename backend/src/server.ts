@@ -4,7 +4,8 @@ import { JsonFileTodoRepository } from './modules/todos/index.js';
 
 const app = createApp({
   todoRepository: new JsonFileTodoRepository(env.dataFile, env.seedFile),
-  corsOrigin: env.corsOrigin,
+  corsOrigin: env.corsOrigins,
+  corsAllowLocalhost: env.corsAllowLocalhost,
 });
 
 const server = app.listen(env.port, () => {

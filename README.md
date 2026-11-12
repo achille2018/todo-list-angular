@@ -100,12 +100,26 @@ npm --prefix backend run db:reset
 
 | Fonctionnalité | Utilisation | Requête HTTP |
 |---|---|---|
-| Ajouter une tâche | Saisir le texte puis appuyer sur **Entrée** | `POST /api/todos` |
-| Filtrer | Boutons **All**, **In Progress**, **Done** | `GET /api/todos?completed=...` |
-| Terminer / reprendre une tâche | Cocher la case | `PATCH /api/todos/:id` |
+| Ajouter une tâche | Choisir la priorité, saisir le texte puis **Entrée** (ou **Ajouter**) | `POST /api/todos` |
+| Filtrer | Boutons **All**, **In Progress**, **Done** (avec compteurs) | `GET /api/todos?completed=...` |
+| Trier | Boutons **Priorité** / **Récentes** | aucune (tri dans le navigateur) |
+| Changer la priorité | Clic sur le badge **Haute / Moyenne / Basse** | `PATCH /api/todos/:id` |
+| Terminer / reprendre une tâche | Clic sur le cercle à gauche | `PATCH /api/todos/:id` |
 | Modifier une tâche | **Double-clic** sur le texte, **Entrée** pour valider | `PATCH /api/todos/:id` |
 | Annuler la modification | **Échap** ou clic à l'extérieur | aucune |
-| Supprimer une tâche | Bouton **×** | `DELETE /api/todos/:id` |
+| Supprimer une tâche | Icône **corbeille** (au survol) | `DELETE /api/todos/:id` |
+| Mode sombre | Bouton soleil / lune en haut à droite | aucune (mémorisé dans le navigateur) |
+
+### Interface
+
+- **Priorités** : chaque tâche a une bande et un badge de couleur (rouge = haute, orange = moyenne,
+  vert = basse). Le tri « Priorité » affiche les tâches en cours d'abord, de la plus urgente à la moins urgente.
+- **Statistiques** : anneau de progression animé, nombre de tâches en cours, terminées et urgentes.
+- **Petits effets** : apparition et disparition animées des tâches, coche qui se dessine, texte barré
+  progressivement, secousse si on valide un champ vide, squelettes de chargement, confettis quand
+  toutes les tâches sont terminées, fond animé.
+- **Accessibilité** : navigation au clavier, libellés ARIA, animations réduites si le système le demande
+  (`prefers-reduced-motion`), mise en page adaptée au mobile.
 
 ## Fonctionnement général
 
@@ -128,7 +142,8 @@ npm --prefix backend run db:reset
 
 [JSONPlaceholder](https://jsonplaceholder.typicode.com) est une fausse API REST publique.
 Ses tâches ont les mêmes champs que notre modèle (`id`, `title`, `completed`, plus un `userId` ignoré),
-donc l'application fonctionne avec elle **sans modifier le code**.
+donc l'application fonctionne avec elle **sans modifier le code**. Elle ne gère pas les priorités :
+toutes ses tâches s'affichent en priorité « Moyenne ».
 
 ### Mise en place
 

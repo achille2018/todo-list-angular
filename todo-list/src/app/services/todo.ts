@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Todo, TodoFilter } from '../models/todo';
+import { Todo, TodoFilter, TodoPriority } from '../models/todo';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -20,12 +20,12 @@ export class TodoService {
   }
 
   /** POST /todos */
-  add(title: string): Observable<Todo> {
-    return this.http.post<Todo>(this.apiUrl, { title, completed: false });
+  add(title: string, priority: TodoPriority = 'medium'): Observable<Todo> {
+    return this.http.post<Todo>(this.apiUrl, { title, completed: false, priority });
   }
 
   /** PATCH /todos/:id */
-  update(id: number, changes: Partial<Todo>): Observable<Todo> {
+  update(id: number, changes: Partial<Pick<Todo, 'title' | 'completed' | 'priority'>>): Observable<Todo> {
     return this.http.patch<Todo>(`${this.apiUrl}/${id}`, changes);
   }
 

@@ -98,6 +98,38 @@ describe('API /api/todos', () => {
     });
   });
 
+  describe('Priorités', () => {
+    it('donne la priorité « medium » par défaut', async () => {
+      const res = await request(app).post('/api/todos').send({ title: 'Sans priorité' }).expect(201);
+      expect(res.body.priority).toBe('medium');
+    });
+
+    it('crée une tâche avec une priorité', async () => {
+      const res = await request(app).post('/api/todos').send({ title: 'Urgent', priority: 'high' }).expect(201);
+      expect(res.body.priority).toBe('high');
+    });
+
+    it('refuse une priorité inconnue (400)', async () => {
+      await request(app).post('/api/todos').send({ title: 'x', priority: 'critique' }).expect(400);
+    });
+
+    it('modifie la priorité', async () => {
+      const res = await request(app).patch('/api/todos/1').send({ priority: 'low' }).expect(200);
+      expect(res.body.priority).toBe('low');
+    });
+
+    it('filtre par priorité avec ?priority=high', async () => {
+      await request(app).post('/api/todos').send({ title: 'Urgent', priority: 'high' }).expect(201);
+      const res = await request(app).get('/api/todos?priority=high').expect(200);
+      expect(res.body.map((t: { title: string }) => t.title)).toEqual(['Urgent']);
+    });
+
+    it('attribue « medium » aux anciennes tâches sans priorité', async () => {
+      const res = await request(app).get('/api/todos/1').expect(200);
+      expect(res.body.priority).toBe('medium');
+    });
+  });
+
   describe('PATCH /api/todos/:id', () => {
     it('modifie le titre', async () => {
       const res = await request(app).patch('/api/todos/1').send({ title: 'Renommée' }).expect(200);
@@ -134,6 +166,25 @@ describe('API /api/todos', () => {
   it('autorise l’application Angular (CORS)', async () => {
     const res = await request(app).get('/api/todos').set('Origin', 'http://localhost:4200');
     expect(res.headers['access-control-allow-origin']).toBe('http://localhost:4200');
+  });
+
+  it('refuse une autre origine (CORS)', async () => {
+    const res = await request(app).get('/api/todos').set('Origin', 'http://localhost:5555');
+    expect(res.headers['access-control-allow-origin']).toBeUndefined();
+  });
+
+  it('autorise tous les ports localhost en développement (CORS)', async () => {
+    const devApp = createApp({
+      todoRepository: new JsonFileTodoRepository(dataFile),
+      corsOrigin: 'http://localhost:4200',
+      corsAllowLocalhost: true,
+      logRequests: false,
+    });
+    const res = await request(devApp).get('/api/todos').set('Origin', 'http://localhost:56727');
+    expect(res.headers['access-control-allow-origin']).toBe('http://localhost:56727');
+
+    const other = await request(devApp).get('/api/todos').set('Origin', 'https://exemple.com');
+    expect(other.headers['access-control-allow-origin']).toBeUndefined();
   });
 
   it('renvoie 404 pour une route inconnue', async () => {

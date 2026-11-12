@@ -35,6 +35,7 @@ export class JsonFileTodoRepository implements TodoRepository {
     const todos = await this.load();
     return todos
       .filter((todo) => filter.completed === undefined || todo.completed === filter.completed)
+      .filter((todo) => filter.priority === undefined || todo.priority === filter.priority)
       .map((todo) => ({ ...todo }));
   }
 
@@ -50,6 +51,7 @@ export class JsonFileTodoRepository implements TodoRepository {
       id: todos.reduce((max, t) => Math.max(max, t.id), 0) + 1,
       title: data.title,
       completed: data.completed,
+      priority: data.priority,
       createdAt: now,
       updatedAt: now,
     };
@@ -65,6 +67,7 @@ export class JsonFileTodoRepository implements TodoRepository {
 
     if (changes.title !== undefined) todo.title = changes.title;
     if (changes.completed !== undefined) todo.completed = changes.completed;
+    if (changes.priority !== undefined) todo.priority = changes.priority;
     todo.updatedAt = new Date().toISOString();
 
     await this.persist(todos);
@@ -90,7 +93,9 @@ export class JsonFileTodoRepository implements TodoRepository {
     for (const file of [this.filePath, this.seedFilePath]) {
       if (!file) continue;
       try {
-        return JSON.parse(await readFile(file, 'utf-8')) as Todo[];
+        const stored = JSON.parse(await readFile(file, 'utf-8')) as Partial<Todo>[];
+        // Les tâches enregistrées avant l'ajout des priorités reçoivent la priorité « medium »
+        return stored.map((todo) => ({ ...todo, priority: todo.priority ?? 'medium' }) as Todo);
       } catch (error) {
         if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
       }

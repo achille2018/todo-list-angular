@@ -3,6 +3,7 @@
     "id": 1,
     "title": "Préparer l'examen Angular",
     "completed": false,
+    "priority": "high",
     "createdAt": "2026-11-12T08:00:00.000Z",
     "updatedAt": "2026-11-12T08:00:00.000Z"
   },
@@ -10,6 +11,7 @@
     "id": 2,
     "title": "Installer Angular CLI",
     "completed": true,
+    "priority": "medium",
     "createdAt": "2026-11-12T08:05:00.000Z",
     "updatedAt": "2026-11-12T08:05:00.000Z"
   },
@@ -17,7 +19,16 @@
     "id": 3,
     "title": "Créer la directive d'édition inline",
     "completed": false,
+    "priority": "medium",
     "createdAt": "2026-11-12T08:10:00.000Z",
     "updatedAt": "2026-11-12T08:10:00.000Z"
+  },
+  {
+    "id": 4,
+    "title": "Relire le README avant le rendu",
+    "completed": false,
+    "priority": "low",
+    "createdAt": "2026-11-12T08:15:00.000Z",
+    "updatedAt": "2026-11-12T08:15:00.000Z"
   }
 ]

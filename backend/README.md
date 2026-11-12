@@ -40,7 +40,7 @@ Les variables sont lues dans `.env` (modèle : `.env.example`) et validées au d
 |---|---|---|
 | `NODE_ENV` | `development` | `development`, `production` ou `test` |
 | `PORT` | `3000` | Port d'écoute |
-| `CORS_ORIGIN` | `http://localhost:4200` | Origine autorisée (le frontend) |
+| `CORS_ORIGIN` | `http://localhost:4200` | Origine(s) autorisée(s), séparées par des virgules. En `development`, tous les ports de `localhost` sont aussi acceptés |
 | `DATA_FILE` | `data/todos.json` | Fichier de stockage des tâches |
 
 ## Architecture
@@ -120,6 +120,7 @@ URL de base : `http://localhost:3000/api`
   "id": 1,
   "title": "Préparer l'examen Angular",
   "completed": false,
+  "priority": "high",
   "createdAt": "2026-11-12T08:00:00.000Z",
   "updatedAt": "2026-11-12T08:00:00.000Z"
 }
@@ -132,9 +133,10 @@ URL de base : `http://localhost:3000/api`
 | GET | `/todos` | — | `200` liste | `400` filtre invalide |
 | GET | `/todos?completed=true` | — | `200` tâches terminées | |
 | GET | `/todos?completed=false` | — | `200` tâches en cours | |
+| GET | `/todos?priority=high` | — | `200` tâches de cette priorité (combinable avec `completed`) | |
 | GET | `/todos/:id` | — | `200` tâche | `400`, `404` |
-| POST | `/todos` | `{ "title": "...", "completed"?: false }` | `201` tâche créée + en-tête `Location` | `400` |
-| PATCH | `/todos/:id` | `{ "title"?: "...", "completed"?: true }` | `200` tâche modifiée | `400`, `404` |
+| POST | `/todos` | `{ "title": "...", "completed"?: false, "priority"?: "medium" }` | `201` tâche créée + en-tête `Location` | `400` |
+| PATCH | `/todos/:id` | `{ "title"?: "...", "completed"?: true, "priority"?: "low" }` | `200` tâche modifiée | `400`, `404` |
 | DELETE | `/todos/:id` | — | `204` sans contenu | `400`, `404` |
 | GET | `/health` | — | `200` `{ "status": "ok" }` | |
 
@@ -142,7 +144,9 @@ URL de base : `http://localhost:3000/api`
 
 - `title` : texte obligatoire, espaces retirés au début et à la fin, 1 à 200 caractères.
 - `completed` : booléen.
-- `PATCH` : au moins un des deux champs doit être fourni.
+- `priority` : `low`, `medium` ou `high` ; `medium` par défaut à la création.
+  Les tâches enregistrées avant l'ajout des priorités reçoivent `medium` à la lecture.
+- `PATCH` : au moins un des champs doit être fourni.
 - Les champs inconnus sont refusés.
 - `:id` doit être un entier positif.
 
@@ -178,6 +182,6 @@ curl -X DELETE http://localhost:3000/api/todos/1
 
 ## Tests
 
-`npm test` lance 20 tests d'intégration (`tests/todos.api.test.ts`) qui envoient de vraies requêtes
-HTTP à l'application (Supertest) avec un fichier de données temporaire : listing, filtres, création,
-modification, suppression, validation, erreurs 404, JSON mal formé et CORS.
+`npm test` lance 28 tests d'intégration (`tests/todos.api.test.ts`) qui envoient de vraies requêtes
+HTTP à l'application (Supertest) avec un fichier de données temporaire : listing, filtres, priorités,
+création, modification, suppression, validation, erreurs 404, JSON mal formé et CORS.

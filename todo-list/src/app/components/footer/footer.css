@@ -1,3 +1,40 @@
-footer { text-align: center; color: #777; margin-top: 16px; font-size: 0.9rem; }
-p { margin: 4px 0; }
-.hint { font-size: 0.8rem; color: #aaa; }
+footer {
+  margin-top: 24px;
+  text-align: center;
+  animation: fade 0.8s ease 0.4s both;
+}
+
+.hints {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+kbd {
+  margin-right: 4px;
+  padding: 2px 7px;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface-strong);
+  border: 1px solid var(--border-strong);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+}
+
+.made {
+  margin: 14px 0 0;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+}

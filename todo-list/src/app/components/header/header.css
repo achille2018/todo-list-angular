@@ -1,10 +1,180 @@
-header { text-align: center; margin-bottom: 20px; }
-h1 { margin: 0 0 8px; color: #4a6cf7; letter-spacing: 2px; }
-.students {
-  list-style: none; padding: 0; margin: 0;
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+header {
+  margin-bottom: 20px;
+  animation: drop 0.6s var(--ease-out) both;
 }
-.students li {
-  background: #e6ebff; color: #3047b8;
-  padding: 4px 10px; border-radius: 999px; font-size: 0.85rem;
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--gradient);
+  box-shadow: 0 10px 24px -8px var(--primary);
+  transform: rotate(-6deg);
+  transition: transform 0.4s var(--ease-spring);
+}
+
+.brand:hover .logo {
+  transform: rotate(0) scale(1.06);
+}
+
+.logo svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: draw 0.6s var(--ease-out) 0.35s forwards;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.date {
+  margin: 2px 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ----- Bouton thème clair / sombre ----- */
+.theme-toggle {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s var(--ease-spring), border-color 0.2s;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+}
+
+.theme-toggle:active {
+  transform: scale(0.94);
+}
+
+.theme-toggle svg {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.5s var(--ease-spring), opacity 0.3s;
+}
+
+.theme-toggle .moon {
+  transform: translateY(150%) rotate(-90deg);
+  opacity: 0;
+}
+
+.theme-toggle.dark .sun {
+  transform: translateY(-150%) rotate(90deg);
+  opacity: 0;
+}
+
+.theme-toggle.dark .moon {
+  transform: none;
+  opacity: 1;
+}
+
+/* ----- Membres du groupe ----- */
+.team {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.team li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+  animation: pop 0.5s var(--ease-spring) both;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.avatar-0 { background: linear-gradient(135deg, #6366f1, #a855f7); }
+.avatar-1 { background: linear-gradient(135deg, #f59e0b, #ef4444); }
+.avatar-2 { background: linear-gradient(135deg, #10b981, #0ea5e9); }
+.avatar-3 { background: linear-gradient(135deg, #ec4899, #8b5cf6); }
+
+@keyframes drop {
+  from { opacity: 0; transform: translateY(-12px); }
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.8); }
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (max-width: 520px) {
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  .logo {
+    width: 42px;
+    height: 42px;
+  }
 }
