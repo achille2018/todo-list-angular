@@ -3,7 +3,7 @@
 Application de gestion de tâches réalisée avec **Angular 21**.
 Elle communique avec le backend Express du dossier `../backend`.
 
-**Groupe :** Achille SAGANG TANWOUO, Jules FILLOUX
+**Étudiant :** Achille SAGANG TANWOUO
 
 ## Démarrage rapide (backend + frontend)
 

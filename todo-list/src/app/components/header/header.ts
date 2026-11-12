@@ -14,10 +14,9 @@ const THEME_KEY = 'todo-theme';
 export class Header {
   private readonly document = inject(DOCUMENT);
 
-  /** Membres du groupe affichés dans l'en-tête */
+  /** Étudiant affiché dans l'en-tête */
   protected readonly students = [
     { firstName: 'Achille', lastName: 'SAGANG TANWOUO' },
-    { firstName: 'Jules', lastName: 'FILLOUX' },
   ];
 
   protected readonly today = this.formatToday();

@@ -28,7 +28,7 @@
     </button>
   </div>
 
-  <ul class="team" aria-label="Membres du groupe">
+  <ul class="team" aria-label="Étudiant">
     @for (student of students; track $index) {
       <li [style.animation-delay]="0.15 + $index * 0.08 + 's'">
         <span class="avatar" [class]="'avatar avatar-' + ($index % 4)">{{ initials(student) }}</span>
